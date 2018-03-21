@@ -36,4 +36,17 @@ rename:
 	
 
 
+6. 
+
+toggle fold long lines: minus sign(-) + shift + s + return
+
+git diff --color-words file.txt
+
+git commit -am "commit message" // add and commit together
+
+
+
+
+ 
+
 
