@@ -1,0 +1,39 @@
+3.
+
+git log
+	git log -n 1 // git log -n [how many commits that it returns to you]
+	git log --since=2012-06-12
+	git log --until=2012-06-12
+	git log --author="Kevin"
+	git log --grep="Init"
+	git log 
+
+
+
+
+4.
+
+three-trees architecture
+git log HEAD // where is the current HEAD, the current branch
+
+5.
+
+git diff // compare the difference between "the HEAD pointing to" and "the current we are working with"
+		 // ---   the version in the repository, previous commited one
+		 // +++   new version
+
+git diff file.txt
+
+git diff --staged // compare staging index and the repository
+
+delete:
+	1. drap the file_to_delete.txt to trash
+	2. git rm file_to_delete.txt // delete the file that already been committed.
+	3. commit
+
+rename:
+	git mv current_file_name.txt changed_file_name.txt
+	
+
+
+
