@@ -44,6 +44,57 @@ git diff --color-words file.txt
 
 git commit -am "commit message" // add and commit together
 
+7.
+
+Undoing working directory changes:
+
+
+	git checkout // go to the repository, get the named thing that I've gave you, and make my working directory look like that. 更改过文件后，恢复成当前repository中的版本
+
+	git checkout -- index.html // -- 就是check a file in the current branch
+
+Unstaging files: (已经git add的文件，返回到没有add的时候，unstage changes)
+	git reset HEAD file.txt // go look at the HEAD pointer. The HEAD pointer points to the last commit of the tip of the current branch, which is master.
+
+Amending commits: (change last version's commit messages)
+	git commit --amend -m "xxxx"
+
+Retriveing old version with SHA
+	1. git checkout 2907d126 -- file.txt 
+	2. git diff --staged // 可以比较staged的version（2907d126 version）和现在的文件的不同，如果commit则变成2907d126 version
+
+Reverting a commit
+	git revert [SHA]
+
+git reset
+	1. --soft: 仅仅是move HEAD to a version，但是不做任何其他的改变，经常用于比较diff
+
+	git reset --soft [SHA]
+		之后cat .git/refs/heads/master会有变化，变成[SHA]
+		可以：1. 从此之后，覆盖原先的所有变化，commit based on current version
+			 
+			 2. 或者比较diff，然后返回之后的version
+			 git diff --staged
+			 git reset --soft [previous SHA]
+
+	2. --mixed(default): staging index也变成那个version的，但是current repository不做变化，只是现在的内容. wait to be commited
+		// makes the staging index look the same as what's in the repository
+
+
+
+
+	3. --hard：所有东西of later version are gone
+
+Removing untracked files(永远的删除，trash里面也没有)
+// in current repository，staging本身以及staging之后的都不管	
+
+	git clean -n/-f // -n: test run
+					// -f: force run
+
+
+// 如果想把staging上面的也clean
+	1. git reset HEAD file.txt
+	2. git clean -f
 
 
 
