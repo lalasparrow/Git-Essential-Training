@@ -96,6 +96,123 @@ Removing untracked files(永远的删除，trash里面也没有)
 	1. git reset HEAD file.txt
 	2. git clean -f
 
+8.
+
+.gitignore (everything that ignore the changes)
+
+	# Comment
+	.DS_Store
+	*.zip
+	*.gz
+	log/*.log
+	log/*.log.[0-9] # anything 0~9 at the end
+	assets/photoshop/
+	assets/videos/
+	!assets/videos/tour_*.mp4
+
+	# log/archive/access.log will not be ignored.
+
+Ignoring files globally: can keep some files locally
+	git config --global core.excludesfile ~/.gitignore_global
+
+Ignoring tracked files
+	ignore的话（加入.gitignore），在add commit push之前有用，之后就没有用，还会继续track
+
+	tell git not to track these files:
+		git rm --cached file.txt // remove this file from the staging index, not from the repository, just from the staging index.
+								// stop being tracked, but will leave the copyt int he repo.
+
+Tracking empty directories: git tracks files not directories.
+	在系统里面，touch assets/pdfs/,gitkeep (pdfs是个空文件夹)
+
+
+9.
+
+Tree-ish - the structure of files in the Git repository
+
+git ls-tree [Treeish]
+
+git ls-tree HEAD       <=>
+git ls-tree master
+
+git ls-tree master assets/ // tells the files that are inside that directory
+
+git ls-tree master^ assets/  // back one commit
+
+blob is a file.
+tree is a directory
+
+
+git log --online // 把所有log变成一行显示出来
+git log --online -3 // show 3 logs
+git log --since="2012-06-12"
+git log --until="xxxx-xx-xx"
+git log --since="2 weeks ago" --until="3 days ago"
+git log --since=2.weeks --until=3.days
+git log author="Kevin"
+git log --grep="temp"
+git log [SHA-1]..[SHA-2] --oneline
+git log [SHA-1].. index.html // the way up to the end, what has happened to the index.html file
+git log -p [SHA-1].. index.html // -p show the changes
+git log --stat --summary // tell you statistics about what changed in each one. Something was added, something was taken away.
+git log --format=oneline // 比之前oneline多加了SHA
+git log --format=short 
+git log --format=full
+git log --format=fuller 
+git log --format=email
+git log --format=raw 
+git log --graph
+git log --online --graph --all --decorate
+
+Viewing commits in a specific log, what changes in this commit:
+	git show [SHA]
+	git show --formate=oneline HEAD
+	git show --formate=oneline HEAD^
+	git show --formate=oneline HEAD^^
+	git show --formate=oneline HEAD~3
+
+
+Comparing commits: compare the directory that the commit references; the actural state of all the files in the repository at that point
+	git diff [SHA] // diff between that directory and current directory
+	git diff [SHA] file.txt
+	git diff [SHA1]..[SHA2]
+	git diff [SHA1]..[SHA2] file.txt
+	git diff --stat --summary [SHA]..HEAD
+	git diff --ignore-space-change [SHA]..HEAD // ignore one/two space change
+	// git diff -b [SHA]..HEAD
+	git diff --ignore-all-space-change [SHA]..HEAD
+	// git diff -w [SHA]..HEAD
+
+
+
+10. Branching
+ 	git branch // the branch we have, 有*号标志的说明先在在的branch
+ 	ls -la .git/refs/heads // all the branching
+ 	create: 
+ 		git branch new_feature // add new branch
+
+ 	switch:	
+ 		git checkout new_feature // switch to branch
+ 	create + switch:
+ 		git checkout -b shorthen_title
+ 	
+
+ 	checkout command: tells Git to go and get the latest version of the branch and to make our working directory look exactly like it. checkout的时候，directory必须是most clean的，如果不most clean，依旧有changes没有被commit，是不能switch branch的。解决方案：1. 去除改动 2. commit 3. stash。如果有新加上的files，也是可以switch的（most clean）
+
+
+ 	compare:
+ 		git diff master..new_feature
+
+
+
+
+
+
+
+
+
+
+
 
 
  
