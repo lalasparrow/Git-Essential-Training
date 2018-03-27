@@ -110,7 +110,7 @@ Removing untracked files(永远的删除，trash里面也没有)
 	assets/videos/
 	!assets/videos/tour_*.mp4
 
-	# log/archive/access.log will not be ignored.
+	# log/archive/access.log will not be ignored.*/
 
 Ignoring files globally: can keep some files locally
 	git config --global core.excludesfile ~/.gitignore_global
@@ -201,18 +201,70 @@ Comparing commits: compare the directory that the commit references; the actural
 
 
  	compare:
- 		git diff master..new_feature
+ 		git diff master..new_feature //比较master和new_feature之间的不同
+        git diff --color-words new_feature..master // 把不同显示在一行里
+        git diff --color-words new_feature..master^ // 比较new_feature和master上一次commit的不同
+                                                    // 用这种方式来看两个branch什么时候完全相同, completely contains one another
+        git branch --merged // show all branches that are completely included in this branch, 当前branch里面所有的branch的内容
+            example: // 现在的branch是shorthen_title, all of the commits that are in new_feature and master are also in shorten_title
+                master
+                new_feature
+              * shorthen_title
 
 
+    rename:
+        git branch -m new_feature seo_title // 把原来名字（new_feature）改成seo_title
+    delete:
+        git branch -d branch_to_delete // 注：cannot delete the branch you're currently on
+                                        //  如果被delete的branch有没被merge的内容，会有提醒，问是否completely delete
+    (设置)每次回车的时候，告诉你现在在哪个branch:
+command: ls -la ~ //看有没有.git-completion.bash
 
 
+11.
+
+    git checkout master // master接受merge
+    git merge seo_title
+
+    git merge --no-ff branch // dont do fast forware, make a log
+    git merge --ff-only branch // 只做fast forware merge，如果不行，则不merge
+
+Resolve merge conflicts:
+    1. abort merge: git merge --abort
+    2. resolve the conflicts manually: 手动改错，代码里面会有>>>HEAD 之类的
+    3. use a merge tool: git mergetool --tool=
+
+    git log --graph --oneline -all --decorate // 看图
+
+12.
+
+stash可以暂时存changes，并且不用commit。The stash is not part of the repository, the staging index or the working directory, it's a special fourth area in Git.
+
+在A branch改过文件之后，没有add commit，想switch branch。用stash。
+    git stash save "messages"
+
+    git stash list // 看stash里面所有的东西
+    stash@{0}: On [branch that put the stash on]: messages
+
+    git stash show stash{0} // what change int the file
+    git stash show stash{0} // show us the edits
 
 
+Retrive the stash：在哪个branch retrieve并不重要，每个都能apply stash内的内容
+    git stash pop（或者apply）stash{0}// pop 同时remove stash内的内容
+                            // apply只拿出来，不remove
+    git stash save "messages" // save the poped stash again, 如果不想在当前branch retrieve stash
+    git stash
 
+Delete items in the stash
+    git stash drop stash{0}
+    git stash clear // clear all stash
 
+13.
 
-
-
+    git remote // show all the remote
+    git remote add origin <https://github......>
+    
 
 
  
