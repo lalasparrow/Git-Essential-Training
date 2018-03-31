@@ -261,12 +261,116 @@ Delete items in the stash
     git stash clear // clear all stash
 
 13.
+origin/master // a branch on our local machine that references the remote server branch, and it always tries to stay and sync with that.
+
+remote server     master
+
+my computer       origin/master
+                  master
+
+push: master(my computer) -> master(remote server)
+fetch: master(remote server) -> origin/master(my computer)
+merge: origin/master(my computer) -> master(my computer)
+
 
     git remote // show all the remote
+    git remote -v // 更详细的remote信息
+    cat .git/config // 查看origin的信息，configuration
+
     git remote add origin <https://github......>
-    
+
+    ls -la .git/refs/remotes // 可以显示remotes的名字
+    ls -la .git/refs/remotes/origin // 可以显示origin里面的branches, e.g. master之类的
+
+push:
+    git push -u origin master // -u 说明连接到remote
+// git branch --set-upstream non_tracking origin/non_tracking 设置-u
+
+    git branch -r // remote branch
+    git branch -a // show local branch and remote branch
+
+    cat .git/config里面的[branch "master"] remote = origin, [remote "origin"]里面的url是github的url
+clone:
+    git clone [path] [optional: 如果当前已经有了该文件夹，就会需要写这个，可以标记为另一个version，别人已经更改过的version，在github上]
+
+push changes to a remote repository:
+    git diff origin/master..master
+    git push // 因为是tracking branch，就是完全从git上面clone下来的，所以可以直接git push
+
+fetch
+    git fetch // 或者是git fetch origin
+
+merge
+    git branch -a // 所有的branch
+    git diff master..origin/master // 比较想merge的两个branch的不同
+    git merge origin/master // 因为现在在的branch是master
+
+    git pull = git fetch + git merge
+
+check out remote branches
+    git branch -r // 看remote的branches
+    git branch non_tracking origin/non_tracking // 把remote的non_tracking branch变成本地的non_tracking branch了
+    git branch -d non_tracking // 删除本地的（不是remote）non_tracking branch
+    git checkout -b non_tracking origin/non_tracking // 这样commit之后push会push到remote non_tracking
+
+delete remote branch
+    git branch -a // 先show所有的branches，包括remote的
+    方法1：git push origin :non_tracking // 实际上push是non_tracking:non_tracking把non_tracking local push到non_tracking remote
+    // 现在变成:non_tracking，也就是把nothing push到non_tracking
+
+    方法2：git push origin --delete non_tracking
+
+Collaboration:
+    1. 被加成collaborator之后，看看network、pull request、issues
+    2. 之后fork到自己的github和local
+    3. commit changes to 自己的github
+    4. pull request，合并到原来的github中
+
+A collaboration workflow
+    > git checkout master // 去master branch
+    > get fetch // 每天都fetch别人的成果
+    > git merge origin/master // synchornize the origin/master with master
+// 在新的branch里面开始work，这样不会affect master branch
+    > git checkout -b feedback_form // create and 换成feedback_form branch
+    > git add feedback.html
+    > git commit -m "Add customer feedback form" // 现在changes在local repository inside feedback_form branch
+// 打算push到remote上面了，先fetch别人的成果
+    > git fetch
+    > git push -u origin feedback_form // -u说明是tracking branch，这样以后也能track changes
+
+另一个coworker：
+    > git checkout master
+    > git fetch
+    > git merge origin/master // 把fetch的成果merge到local
+// 看feed_back的work
+    > git checkout -b feedback_form origin/feedback_form // 看origin/feedback_form里面的改动
+    > git log
+    > git show [SHA] // look at actual commit
+// make changes
+    > git commit -am "Add tour selector to feedback form"
+// 放在remote
+    > git fetch
+    > git push
+
+我：
+    > git fetch
+    > git log -p feedback_form..origin/feedback_form // -p will show each of the log entries with a diff of all the changes that were made in that log entry
+    > git merge origin/feedback_form
+    > git checkout master
+    > git fetch
+    > git merge origin/master
+    > git merge feedback_form
+    > git push
 
 
- 
+
+
+
+
+
+
+
+
+
 
 
