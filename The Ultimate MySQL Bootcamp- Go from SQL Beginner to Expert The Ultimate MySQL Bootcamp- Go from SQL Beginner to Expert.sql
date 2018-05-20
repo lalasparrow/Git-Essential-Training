@@ -255,7 +255,51 @@ Lecture 105 SUBSTRING//SUBSTR
 	SELECT SUBSTRING('Hello World', 1, 4); //这里H的index是1，不是0， 'Hello'
 	SELECT SUBSTRING('Hello World', 7); //World
 	SELECT SUBSTRING('Hello World', -3); //rld
-
+	SELECT SUBSTR(title, 1, 10) AS 'short title' FROM books;
+	SELECT CONCAT
+    (
+        SUBSTRING(title, 1, 10),
+        '...'
+    ) AS 'short title'
+	FROM books;
 	
+Lecture 107 REPLACE // Case sensitive
+	SELECT
+	    SUBSTRING(REPLACE(title, 'e', '3'), 1, 10) AS 'weird string'
+	FROM books;
+
+Lecture 109 REVERSE
+	SELECT REVERSE(author_fname) FROM books;
+
+Lecture 111 长度
+	SELECT author_lname, CHAR_LENGTH(author_lname) AS 'length' FROM books;//长度在length下了
+
+Lecture 113 upper/lower
+	SELECT UPPER('Hello World');
+	SELECT LOWER('Hello World');
+
+注意：concat只能放多个argument
+所以：
+This works:
+
+	SELECT UPPER(CONCAT(author_fname, ' ', author_lname)) AS "full name in caps"
+	FROM books;
+While this does not:
+
+	SELECT CONCAT(UPPER(author_fname, ' ', author_lname)) AS "full name in caps" 
+	FROM books;
+
+Lecture 122 DISTINCT// 把所有的重复的只拿一次，在select的时候
+	SELECT DISTINCT author_lname FROM books;
+	SELECT DISTINCT author_fname, author_lname FROM books; // author_fname + author_lname is distinct（alter：concat）
+
+Lecture 124 ORDER BY // default是升序排列，a-z,0-9
+	
+
+
+
+
+
+
 
 
